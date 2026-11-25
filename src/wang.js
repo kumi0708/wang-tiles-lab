@@ -119,7 +119,24 @@ export function buildTile(tex, spots, edges, midSpot, T, opts = {}) {
     else if (k === LEFT) { const s = V[edges.left]; sample(s.x + x, s.y + y, out, o); }
     else { const s = V[edges.right]; sample(s.x + x - T, s.y + y, out, o); }
   };
-  const midPix = (x, y, out, o) => sample(midSpot.x + x, midSpot.y + y, out, o);
+  // Tone-match the middle patch to the edge strips around it, so low-frequency
+  // brightness differences don't show up as a diamond lattice.
+  const off = [0, 0, 0];
+  if (opts.toneMatch ?? true) {
+    const a0 = new Uint8ClampedArray(3), eSum = [0, 0, 0], mSum = [0, 0, 0];
+    let ne = 0, nm = 0;
+    for (let y = 0; y < T; y += 2) for (let x = 0; x < T; x += 2) {
+      const d = [y, T - 1 - x, T - 1 - y, x];
+      let k = 0; for (let j = 1; j < 4; j++) if (d[j] < d[k]) k = j;
+      if (d[k] < T * 0.3) { edgePix(k, x, y, a0, 0); eSum[0] += a0[0]; eSum[1] += a0[1]; eSum[2] += a0[2]; ne++; }
+      if (d[k] > T * 0.12) { sample(midSpot.x + x, midSpot.y + y, a0, 0); mSum[0] += a0[0]; mSum[1] += a0[1]; mSum[2] += a0[2]; nm++; }
+    }
+    for (let c = 0; c < 3; c++) off[c] = (eSum[c] / ne - mSum[c] / nm) * 0.85;
+  }
+  const midPix = (x, y, out, o) => {
+    sample(midSpot.x + x, midSpot.y + y, out, o);
+    out[o] += off[0]; out[o + 1] += off[1]; out[o + 2] += off[2];
+  };
   // (u along edge, v depth) -> tile (x,y)
   const toXY = (k, u, v) => (k === TOP ? [u, v] : k === BOTTOM ? [u, T - 1 - v] : k === LEFT ? [v, u] : [T - 1 - v, u]);
 

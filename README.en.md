@@ -4,6 +4,8 @@
 
 ![hero](assets/readme/hero.png)
 
+<p align="center"><img src="assets/readme/scroll.gif" width="640" alt="scroll"><br><sub>Scrolling the infinite hashed map across all 5 themes: no grid, no seams.</sub></p>
+
 **▶ Play in the browser: https://kumi0708.github.io/wang-tiles-lab/**
 
 This demo cuts 16 **2-colour edge Wang tiles** from a seamless texture that the browser generates procedurally. It then tiles the ground with them, and no grid shows.

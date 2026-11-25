@@ -11,7 +11,7 @@ export const FIGURES = {
   continuity: [1300, 640],
   mincut: [1300, 560],
   smart: [1300, 700],
-  themes: [1600, 760],
+  themes: [1600, 680],
   loop: [1300, 700],
   infinite: [1300, 700],
 };

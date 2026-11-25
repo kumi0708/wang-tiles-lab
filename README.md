@@ -4,6 +4,8 @@
 
 ![hero](assets/readme/hero.png)
 
+<p align="center"><img src="assets/readme/scroll.gif" width="640" alt="scroll"><br><sub>無限マップをスクロール（5テーマ）。どこにもグリッドや継ぎ目は見えません。</sub></p>
+
 **▶ ブラウザで遊ぶ: https://kumi0708.github.io/wang-tiles-lab/**
 
 16枚の **2色エッジ Wang タイル** を、ブラウザ内で手続き生成したシームレステクスチャから切り出し、グリッド感のない地面を敷き詰めるデモです。

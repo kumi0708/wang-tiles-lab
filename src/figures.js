@@ -192,18 +192,17 @@ F.bitmask = () => {
   lab(`right = ${e.right}`, x + s + 20, y + s / 2 - 30, 'left', e.right);
   text('(×2)', x + s + 70, y + s / 2 + 26, { size: 15, font: MONO, color: '#9aa3c2', align: 'center' });
 
-  const rx = 700;
-  text('index = top + 2·right + 4·bottom + 8·left', rx, 190, { size: 26, weight: 700, font: MONO });
-  text(`      = ${e.top} + 2·${e.right} + 4·${e.bottom} + 8·${e.left}  =  ${i}`, rx, 232, { size: 26, weight: 700, font: MONO, color: '#7cf29c' });
+  const rx = 640;
+  text('index = top + 2·right + 4·bottom + 8·left', rx, 190, { size: 21, weight: 700, font: MONO });
+  text(`      = ${e.top} + 2·${e.right} + 4·${e.bottom} + 8·${e.left}  =  ${i}  =  0b${e.left}${e.bottom}${e.right}${e.top}`, rx, 232, { size: 21, weight: 700, font: MONO, color: '#7cf29c' });
   const bits = [['bit 3', 'left', e.left], ['bit 2', 'bottom', e.bottom], ['bit 1', 'right', e.right], ['bit 0', 'top', e.top]];
   bits.forEach(([b, n, v], k) => {
-    const bx = rx + k * 120, by = 280;
-    ctx.fillStyle = v ? 'rgba(46,196,255,0.18)' : 'rgba(255,159,28,0.16)'; roundRect(ctx, bx, by, 108, 110, 12); ctx.fill();
-    ctx.strokeStyle = v ? EDGE_COLORS[1] : EDGE_COLORS[0]; ctx.lineWidth = 2; roundRect(ctx, bx, by, 108, 110, 12); ctx.stroke();
-    text(String(v), bx + 54, by + 62, { size: 44, weight: 800, font: MONO, align: 'center' });
-    text(`${b} · ${n}`, bx + 54, by + 94, { size: 13, font: MONO, align: 'center', color: '#c9d1ee' });
+    const bx = rx + k * 128, by = 280;
+    ctx.fillStyle = v ? 'rgba(46,196,255,0.18)' : 'rgba(255,159,28,0.16)'; roundRect(ctx, bx, by, 118, 110, 12); ctx.fill();
+    ctx.strokeStyle = v ? EDGE_COLORS[1] : EDGE_COLORS[0]; ctx.lineWidth = 2; roundRect(ctx, bx, by, 118, 110, 12); ctx.stroke();
+    text(String(v), bx + 59, by + 62, { size: 44, weight: 800, font: MONO, align: 'center' });
+    text(`${b} · ${n}`, bx + 59, by + 94, { size: 12, font: MONO, align: 'center', color: '#c9d1ee' });
   });
-  text(`0b${e.left}${e.bottom}${e.right}${e.top} = ${i}`, rx + 500, 345, { size: 24, weight: 800, font: MONO, color: '#7cf29c' });
   text(`atlas: col = ${i} % 4 = ${i % 4},  row = ⌊${i} / 4⌋ = ${Math.floor(i / 4)}`, rx, 440, { size: 20, font: MONO, color: '#c9d1ee' });
   text('2⁴ = 16 通りすべてにちょうど1枚 → 探索・バックトラック不要', rx, 488, { size: 19, weight: 700 });
   text('exactly one tile for every combination: no search, no fallback', rx, 516, { size: 15, color: '#9aa3c2' });

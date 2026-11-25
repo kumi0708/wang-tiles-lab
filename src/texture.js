@@ -44,8 +44,8 @@ function meadow(ctx, S, seed) {
   const R = mulberry32(seed);
   const dark = hex('#24461a'), mid = hex('#3f7a26'), light = hex('#79b13c'), dry = hex('#a6a23f');
   const base = (x, y) => {
-    const n = fbm(x, y, S, 4, 5, seed);
-    const p = fbm(x, y, S, 3, 3, seed + 99);
+    const n = fbm(x, y, S, 8, 5, seed);
+    const p = fbm(x, y, S, 6, 3, seed + 99);
     let c = n < 0.5 ? mix(dark, mid, smoothstep(0.2, 0.5, n)) : mix(mid, light, smoothstep(0.5, 0.8, n));
     c = mix(c, dry, smoothstep(0.58, 0.78, p) * 0.45);
     const g = (fbm(x, y, S, 64, 2, seed + 5) - 0.5) * 30;
@@ -114,8 +114,8 @@ function forest(ctx, S, seed) {
   const R = mulberry32(seed);
   const soil = hex('#3a2616'), soilL = hex('#5e3e22'), moss = hex('#4f6f22'), mossL = hex('#86a13a');
   pixelLayer(ctx, S, (x, y) => {
-    const n = fbm(x, y, S, 4, 5, seed);
-    const m = fbm(x, y, S, 3, 4, seed + 31);
+    const n = fbm(x, y, S, 8, 5, seed);
+    const m = fbm(x, y, S, 8, 4, seed + 31);
     let c = mix(soil, soilL, n);
     const mm = smoothstep(0.52, 0.7, m);
     c = mix(c, mix(moss, mossL, fbm(x, y, S, 32, 2, seed + 3)), mm);
@@ -212,7 +212,7 @@ function snow(ctx, S, seed) {
   const R = mulberry32(seed);
   const shadow = hex('#a9bcd9'), mid = hex('#dce7f5'), white = hex('#f9fcff');
   pixelLayer(ctx, S, (x, y) => {
-    const n = fbm(x, y, S, 4, 5, seed);
+    const n = fbm(x, y, S, 8, 5, seed);
     const drift = Math.sin(((x * 2 + y * 4) / S) * Math.PI * 2 * 2 + fbm(x, y, S, 3, 3, seed + 2) * 8) * 0.5 + 0.5;
     let c = mix(shadow, mid, smoothstep(0.2, 0.55, n));
     c = mix(c, white, smoothstep(0.5, 0.85, n) * 0.9);
@@ -261,8 +261,8 @@ function lava(ctx, S, seed) {
   const rockD = hex('#151216'), rock = hex('#2e2830'), rockL = hex('#4a4048');
   const g0 = hex('#5c0a00'), g1 = hex('#e0400a'), g2 = hex('#ffb13b'), g3 = hex('#fff2b0');
   pixelLayer(ctx, S, (x, y) => {
-    const [f1, f2] = worley(x, y, S, 7, seed);
-    const [h1, h2] = worley(x, y, S, 18, seed + 3);
+    const [f1, f2] = worley(x, y, S, 14, seed);
+    const [h1, h2] = worley(x, y, S, 28, seed + 3);
     const crack = f2 - f1, crack2 = h2 - h1;
     const n = fbm(x, y, S, 4, 5, seed + 1);
     const nx = fbm(x + 1, y, S, 8, 3, seed + 2) - fbm(x - 1, y, S, 8, 3, seed + 2);
@@ -270,7 +270,7 @@ function lava(ctx, S, seed) {
     c = mix(c, rockL, clamp01(nx * 8 + 0.2) * 0.5);
     c = mix(c, rockD, smoothstep(0.25, 0.0, f1) * 0.4);
     const heat = fbm(x, y, S, 3, 3, seed + 8);
-    const glow = Math.exp(-crack * (26 - heat * 10)) + Math.exp(-crack2 * 40) * 0.35 * heat;
+    const glow = Math.exp(-crack * (20 - heat * 8)) + Math.exp(-crack2 * 40) * 0.35 * heat;
     const t = clamp01(glow * (0.6 + heat * 0.8));
     let lc = t < 0.33 ? mix(g0, g1, t / 0.33) : t < 0.7 ? mix(g1, g2, (t - 0.33) / 0.37) : mix(g2, g3, (t - 0.7) / 0.3);
     c = mix(c, lc, smoothstep(0.05, 0.4, t));
