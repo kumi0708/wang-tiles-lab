@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/Users/atu/Documents/gitTest/wang-tiles-lab/scripts/serve.mjs", "8791"],
+      "port": 8791
+    }
+  ]
+}
